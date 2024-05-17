@@ -11,7 +11,12 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <LandingRoot />,
-    children: [{ index: true, element: <HomePage /> }],
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
   },
 ])
 
