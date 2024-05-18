@@ -5,7 +5,7 @@ export default function LandingRoot() {
   return (
     <>
       <Navbar />
-      <main>
+      <main className='mt-16'>
         <Outlet />
       </main>
     </>
