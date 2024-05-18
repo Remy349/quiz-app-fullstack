@@ -10,8 +10,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
+import axios from 'axios'
+import { toast } from 'sonner'
+import { LoaderCircle } from 'lucide-react'
 
 const FormSchema = z.object({
   username: z.string().min(1, { message: 'Username is required' }),
@@ -19,19 +22,31 @@ const FormSchema = z.object({
     .string()
     .min(1, { message: 'Email is required' })
     .email({ message: 'Email is invalid' }),
-  password: z.string().min(1, { message: 'Password is required' }),
+  password: z.string().min(8, { message: 'Password is required' }),
 })
 
 type TFormSchema = z.infer<typeof FormSchema>
 
 export const SignUpForm = () => {
+  const navigate = useNavigate()
+
   const form = useForm<TFormSchema>({
     resolver: zodResolver(FormSchema),
     defaultValues: { username: '', email: '', password: '' },
   })
 
   const onSubmit = async (formData: TFormSchema) => {
-    console.log(formData)
+    try {
+      await axios.post('http://localhost:3000/api/users', formData)
+
+      navigate('/auth/signin')
+
+      toast.success('User successfully created')
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message)
+      }
+    }
   }
 
   return (
@@ -44,7 +59,12 @@ export const SignUpForm = () => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input {...field} type='text' autoComplete='off' />
+                <Input
+                  {...field}
+                  type='text'
+                  autoComplete='off'
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -57,7 +77,12 @@ export const SignUpForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} type='text' autoComplete='off' />
+                <Input
+                  {...field}
+                  type='text'
+                  autoComplete='off'
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,13 +95,25 @@ export const SignUpForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input {...field} type='password' autoComplete='off' />
+                <Input
+                  {...field}
+                  type='password'
+                  autoComplete='off'
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className='font-medium' type='submit'>
+        <Button
+          className='font-medium'
+          type='submit'
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting && (
+            <LoaderCircle className='w-5 h-5 mr-2 animate-spin' />
+          )}
           Sign Up
         </Button>
         <Link className='text-center underline text-sm' to='/auth/signin'>
