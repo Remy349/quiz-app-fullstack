@@ -9,8 +9,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const FormSchema = z.object({
@@ -30,7 +32,18 @@ export const SignInForm = () => {
   })
 
   const onSubmit = async (formData: TFormSchema) => {
-    console.log(formData)
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/auth/signin',
+        formData,
+      )
+
+      console.log(response)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message)
+      }
+    }
   }
 
   return (
