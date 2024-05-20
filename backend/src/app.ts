@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 import { usersRouter } from './routes/users'
+import { authRouter } from './routes/auth'
 
 const app = express()
 
@@ -26,5 +27,6 @@ app.use(express.json())
 app.use(morgan('dev'))
 
 app.use('/api/users', usersRouter)
+app.use('/api/auth', authRouter)
 
 export default app

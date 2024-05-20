@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import { ICreateUser } from '../interfaces/users'
 import { UsersService } from '../services/users'
+import { TCreateUser } from '../types/types'
 
 export class UsersController {
   static async create(req: Request, res: Response) {
     try {
-      const data: ICreateUser = req.body
+      const data: TCreateUser = req.body
 
       const response = await UsersService.create(data)
 

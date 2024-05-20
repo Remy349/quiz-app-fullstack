@@ -1,9 +1,9 @@
-import { ICreateUser } from '../interfaces/users'
+import { TCreateUser } from '../types/types'
 import { prisma } from '../lib/prisma'
 import bcrypt from 'bcrypt'
 
 export class UsersService {
-  static async create(data: ICreateUser) {
+  static async create(data: TCreateUser) {
     const { username, email, password } = data
 
     const passwordHash = await bcrypt.hash(password, 10)
