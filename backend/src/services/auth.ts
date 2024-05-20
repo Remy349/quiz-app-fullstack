@@ -1,5 +1,5 @@
 import { prisma } from '../lib/prisma'
-import { TSignInUser } from '../types/types'
+import { TSignInUser, TSignUpUser } from '../types/types'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -28,5 +28,23 @@ export class AuthService {
     )
 
     return token
+  }
+
+  static async signUp(data: TSignUpUser) {
+    const { username, email, password } = data
+
+    const passwordHash = await bcrypt.hash(password, 10)
+
+    const user = await prisma.user.findFirst({
+      where: { OR: [{ email }, { username }] }
+    })
+
+    if (user) return 'USER_ALREADY_CREATED'
+
+    const newUser = await prisma.user.create({
+      data: { username, email, password: passwordHash }
+    })
+
+    return newUser
   }
 }

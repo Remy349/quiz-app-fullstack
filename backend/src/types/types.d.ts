@@ -1,4 +1,4 @@
-export type TCreateUser = {
+export type TSignUpUser = {
   username: string
   email: string
   password: string
