@@ -15,6 +15,7 @@ import { z } from 'zod'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { LoaderCircle } from 'lucide-react'
+import { API_URL } from '@/utils/consts'
 
 const FormSchema = z.object({
   username: z.string().min(1, { message: 'Username is required' }),
@@ -37,7 +38,7 @@ export const SignUpForm = () => {
 
   const onSubmit = async (formData: TFormSchema) => {
     try {
-      await axios.post('http://localhost:3000/api/auth/signup', formData)
+      await axios.post(`${API_URL}/api/auth/signup`, formData)
 
       navigate('/auth/signin')
 
