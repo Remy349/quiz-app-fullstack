@@ -11,32 +11,21 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { z } from 'zod'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { LoaderCircle } from 'lucide-react'
 import { API_URL } from '@/utils/consts'
-
-const FormSchema = z.object({
-  username: z.string().min(1, { message: 'Username is required' }),
-  email: z
-    .string()
-    .min(1, { message: 'Email is required' })
-    .email({ message: 'Email is invalid' }),
-  password: z.string().min(8, { message: 'Password is required' }),
-})
-
-type TFormSchema = z.infer<typeof FormSchema>
+import { SignUpFormSchema, TSignUpFormSchema } from '@/utils/formSchemas'
 
 export const SignUpForm = () => {
   const navigate = useNavigate()
 
-  const form = useForm<TFormSchema>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<TSignUpFormSchema>({
+    resolver: zodResolver(SignUpFormSchema),
     defaultValues: { username: '', email: '', password: '' },
   })
 
-  const onSubmit = async (formData: TFormSchema) => {
+  const onSubmit = async (formData: TSignUpFormSchema) => {
     try {
       await axios.post(`${API_URL}/api/auth/signup`, formData)
 

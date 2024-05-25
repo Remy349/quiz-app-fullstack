@@ -8,40 +8,28 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { API_URL, JWT_SECRET_KEY } from '@/utils/consts'
+import { API_URL } from '@/utils/consts'
+import { SignInFormSchema, TSignInFormSchema } from '@/utils/formSchemas'
+import { verifyToken } from '@/utils/jwt'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
-import { z } from 'zod'
-import { jwtVerify } from 'jose'
-
-const FormSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: 'Email is required' })
-    .email({ message: 'Email is invalid' }),
-  password: z.string().min(1, { message: 'Password is required' }),
-})
-
-type TFormSchema = z.infer<typeof FormSchema>
 
 export const SignInForm = () => {
-  const form = useForm<TFormSchema>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<TSignInFormSchema>({
+    resolver: zodResolver(SignInFormSchema),
     defaultValues: { email: '', password: '' },
   })
 
-  const onSubmit = async (formData: TFormSchema) => {
+  const onSubmit = async (formData: TSignInFormSchema) => {
     try {
       const response = await axios.post(`${API_URL}/api/auth/signin`, formData)
 
       const token = response.data.token
 
-      const key = new TextEncoder().encode(JWT_SECRET_KEY)
-
-      const { payload } = await jwtVerify(token, key)
+      const payload = await verifyToken(token)
 
       console.log(payload)
     } catch (error) {
