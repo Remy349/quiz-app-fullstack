@@ -13,11 +13,14 @@ import { SignInFormSchema, TSignInFormSchema } from '@/utils/formSchemas'
 import { verifyToken } from '@/utils/jwt'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
+import { LoaderCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 export const SignInForm = () => {
+  const navigate = useNavigate()
+
   const form = useForm<TSignInFormSchema>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: { email: '', password: '' },
@@ -29,9 +32,9 @@ export const SignInForm = () => {
 
       const token = response.data.token
 
-      const payload = await verifyToken(token)
+      const { role } = await verifyToken(token)
 
-      console.log(payload)
+      if (role === 'USER') navigate('/dashboard')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message)
@@ -49,7 +52,12 @@ export const SignInForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} type='text' autoComplete='off' />
+                <Input
+                  {...field}
+                  type='text'
+                  autoComplete='off'
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -62,13 +70,25 @@ export const SignInForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input {...field} type='password' autoComplete='off' />
+                <Input
+                  {...field}
+                  type='password'
+                  autoComplete='off'
+                  disabled={form.formState.isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className='font-medium' type='submit'>
+        <Button
+          className='font-medium'
+          type='submit'
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting && (
+            <LoaderCircle className='w-5 h-5 mr-2 animate-spin' />
+          )}
           Sign In
         </Button>
         <Link className='text-center underline text-sm' to='/auth/signup'>

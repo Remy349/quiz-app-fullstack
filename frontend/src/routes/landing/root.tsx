@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { Navbar } from './_components/navbar'
+import { Navbar } from './_components/navbar/navbar'
 import { Toaster } from 'sonner'
 
 export default function LandingRoot() {
