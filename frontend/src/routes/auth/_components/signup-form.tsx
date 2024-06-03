@@ -27,7 +27,7 @@ export const SignUpForm = () => {
 
   const onSubmit = async (formData: TSignUpFormSchema) => {
     try {
-      await axios.post(`${API_URL}/api/auth/signup`, formData)
+      await axios.post(`${API_URL}/users`, formData)
 
       navigate('/auth/signin')
 

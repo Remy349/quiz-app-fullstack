@@ -28,7 +28,7 @@ export const SignInForm = () => {
 
   const onSubmit = async (formData: TSignInFormSchema) => {
     try {
-      const response = await axios.post(`${API_URL}/api/auth/signin`, formData)
+      const response = await axios.post(`${API_URL}/auth/signin`, formData)
 
       const token = response.data.token
 
