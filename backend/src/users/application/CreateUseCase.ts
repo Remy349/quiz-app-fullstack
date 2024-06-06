@@ -1,7 +1,7 @@
 import { UserEntity } from '../domain/UserEntity'
 import { IUserRepository } from '../domain/UserRepository'
 
-interface ICreateUserData {
+interface ICreateData {
   username: string
   email: string
   password: string
@@ -14,7 +14,7 @@ export class CreateUseCase {
     this.userRepository = userRepository
   }
 
-  async execute(data: ICreateUserData): Promise<void> {
+  async execute(data: ICreateData): Promise<void> {
     const { username, email, password } = data
 
     const user = new UserEntity(username, email, password)
