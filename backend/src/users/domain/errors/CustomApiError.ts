@@ -10,6 +10,10 @@ export class CustomApiError extends Error {
     return new CustomApiError(400, message)
   }
 
+  static unauthorizedError(message: string) {
+    return new CustomApiError(401, message)
+  }
+
   static notFoundError(message: string) {
     return new CustomApiError(404, message)
   }
