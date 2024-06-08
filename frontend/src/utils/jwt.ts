@@ -1,5 +1,6 @@
 import { JWTPayload, jwtVerify } from 'jose'
-import { JWT_SECRET_KEY } from './consts'
+
+const JWT_SECRET_KEY = import.meta.env.VITE_JWT_SECRET_KEY as string
 
 interface IJWTPayload extends JWTPayload {
   id: number
