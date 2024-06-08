@@ -9,8 +9,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar } from '@/components/custom/avatar'
 import { LogOut } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '@/hooks/useAuthContext'
 
 export const UserMenu = () => {
+  const navigate = useNavigate()
+  const { logout } = useAuthContext()
+
+  const handleLogout = () => {
+    logout()
+
+    navigate('/auth/signin')
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -19,7 +30,7 @@ export const UserMenu = () => {
       <DropdownMenuContent align='end'>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className='md:cursor-pointer' onClick={handleLogout}>
           Logout
           <DropdownMenuShortcut>
             <LogOut className='w-4 h-4' />

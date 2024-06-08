@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useAuthContext } from '@/hooks/useAuthContext'
 import { API_URL } from '@/utils/consts'
 import { SignInFormSchema, TSignInFormSchema } from '@/utils/formSchemas'
 import { verifyToken } from '@/utils/jwt'
@@ -20,6 +21,7 @@ import { toast } from 'sonner'
 
 export const SignInForm = () => {
   const navigate = useNavigate()
+  const { signIn } = useAuthContext()
 
   const form = useForm<TSignInFormSchema>({
     resolver: zodResolver(SignInFormSchema),
@@ -33,6 +35,8 @@ export const SignInForm = () => {
       const token = response.data.token
 
       const { role } = await verifyToken(token)
+
+      signIn(token)
 
       if (role === 'USER') navigate('/dashboard')
     } catch (error) {
