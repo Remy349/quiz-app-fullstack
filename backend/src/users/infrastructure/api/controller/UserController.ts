@@ -2,8 +2,9 @@ import { Request as ExRequest, Response as ExResponse } from 'express'
 import { PrismaUserRepository } from '../../repository/PrismaUserRepository'
 import { GetAllUseCase } from '../../../application/GetAllUseCase'
 import { GetByIdUseCase } from '../../../application/GetByIdUseCase'
-import { CustomApiError } from '../../../domain/errors/CustomApiError'
 import { CreateUseCase } from '../../../application/CreateUseCase'
+import { CustomApiError } from '../../../../errors/CustomApiError'
+import { IExRequest } from '../../../../middleware/authJwt'
 
 export class UserController {
   private userRepository: PrismaUserRepository
@@ -25,6 +26,20 @@ export class UserController {
       const users = await this.getAllUseCase.execute()
 
       res.status(200).json(users)
+    } catch (error) {
+      if (error instanceof CustomApiError) {
+        res.status(error.statusCode).json({ message: error.message })
+      }
+    }
+  }
+
+  async getProfile(req: IExRequest, res: ExResponse) {
+    try {
+      const userId = req.userId as string
+
+      const user = await this.getByIdUseCase.execute(userId)
+
+      res.status(200).json(user)
     } catch (error) {
       if (error instanceof CustomApiError) {
         res.status(error.statusCode).json({ message: error.message })
