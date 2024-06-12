@@ -2,13 +2,13 @@ import { sign, verify } from 'jsonwebtoken'
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string
 
-interface IUserToken {
+interface IEncodeToken {
   id: string
   email: string
   role: string
 }
 
-export const generateToken = (user: IUserToken) => {
+export const generateToken = (user: IEncodeToken) => {
   return sign(
     { id: user.id, email: user.email, role: user.role },
     JWT_SECRET_KEY,
