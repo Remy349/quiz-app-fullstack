@@ -1,8 +1,8 @@
 import PrismaSingleton from '../../../db/prisma'
+import { CustomApiError } from '../../../errors/CustomApiError'
 import { generatePasswordHash } from '../../../utils/bcrypt'
 import { UserEntity } from '../../domain/UserEntity'
 import { IUserRepository } from '../../domain/UserRepository'
-import { CustomApiError } from '../../domain/errors/CustomApiError'
 
 export class PrismaUserRepository implements IUserRepository {
   private prisma = PrismaSingleton.getInstance()

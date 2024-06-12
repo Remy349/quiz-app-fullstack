@@ -1,7 +1,7 @@
 import { Request as ExRequest, Response as ExResponse } from 'express'
-import { CustomApiError } from '../../../domain/errors/CustomApiError'
 import { PrismaAuthRepository } from '../../repository/PrismaAuthRepository'
 import { SignInUseCase } from '../../../application/SignInUseCase'
+import { CustomApiError } from '../../../../errors/CustomApiError'
 
 export class AuthController {
   private authRepository: PrismaAuthRepository
