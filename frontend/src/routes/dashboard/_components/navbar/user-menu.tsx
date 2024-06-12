@@ -14,18 +14,20 @@ import { useAuthContext } from '@/hooks/useAuthContext'
 
 export const UserMenu = () => {
   const navigate = useNavigate()
-  const { logout } = useAuthContext()
+  const { logoutUser, currentUser } = useAuthContext()
 
   const handleLogout = () => {
-    logout()
+    logoutUser()
 
     navigate('/auth/signin')
   }
 
+  if (!currentUser) return <p>Loading...</p>
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar value='santiago@gmail.com' size={42} />
+        <Avatar value={currentUser.email} size={42} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

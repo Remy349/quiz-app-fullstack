@@ -21,7 +21,7 @@ import { toast } from 'sonner'
 
 export const SignInForm = () => {
   const navigate = useNavigate()
-  const { signIn } = useAuthContext()
+  const { signInUser, setCurrentUserData } = useAuthContext()
 
   const form = useForm<TSignInFormSchema>({
     resolver: zodResolver(SignInFormSchema),
@@ -34,9 +34,10 @@ export const SignInForm = () => {
 
       const token = response.data.token
 
-      const { role } = await verifyToken(token)
+      const { id, email, role } = await verifyToken(token)
 
-      signIn(token)
+      signInUser(token)
+      setCurrentUserData({ id, email, role })
 
       if (role === 'USER') navigate('/dashboard')
     } catch (error) {

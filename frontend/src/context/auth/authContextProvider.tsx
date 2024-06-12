@@ -1,5 +1,7 @@
-import { ReactNode, useState } from 'react'
-import { AuthContext, IAuthContextProps } from './authContext'
+import { ReactNode, useEffect, useState } from 'react'
+import { AuthContext, IAuthContextProps, IUserSession } from './authContext'
+import axios from 'axios'
+import { API_URL } from '@/utils/consts'
 
 interface IAuthContextProviderProps {
   children: ReactNode
@@ -9,24 +11,58 @@ export const AuthContextProvider = ({
   children,
 }: IAuthContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null)
+  const [currentUser, setCurrentUser] = useState<IUserSession | null>(null)
 
-  const signIn = (tokenData: string) => {
+  const setCurrentUserData = (data: IUserSession) => {
+    setCurrentUser(data)
+  }
+
+  const signInUser = (tokenData: string) => {
     setToken(tokenData)
 
     localStorage.setItem('token', tokenData)
   }
 
-  const logout = () => {
+  const logoutUser = () => {
     setToken(null)
+    setCurrentUser(null)
 
     localStorage.removeItem('token')
   }
 
   const contextValue: IAuthContextProps = {
+    currentUser,
     token,
-    signIn,
-    logout,
+    setCurrentUserData,
+    signInUser,
+    logoutUser,
   }
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem('token')
+
+    if (savedToken) {
+      setToken(savedToken)
+
+      const getProfile = async () => {
+        try {
+          const response = await axios.get(`${API_URL}/users/profile`, {
+            headers: {
+              Authorization: `Bearer ${savedToken}`,
+            },
+          })
+
+          const { id, email, role } = response.data
+
+          setCurrentUser({ id, email, role })
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      getProfile()
+    }
+  }, [])
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

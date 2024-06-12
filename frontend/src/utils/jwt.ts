@@ -3,9 +3,9 @@ import { JWTPayload, jwtVerify } from 'jose'
 const JWT_SECRET_KEY = import.meta.env.VITE_JWT_SECRET_KEY as string
 
 interface IJWTPayload extends JWTPayload {
-  id: number
+  id: string
   email: string
-  role: string
+  role: 'USER' | 'ADMIN'
 }
 
 export const verifyToken = async (token: string) => {
