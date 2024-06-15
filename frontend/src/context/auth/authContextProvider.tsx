@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { AuthContext, IAuthContextProps, IUserSession } from './authContext'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { API_URL } from '@/utils/consts'
 
 interface IAuthContextProviderProps {
@@ -56,7 +56,13 @@ export const AuthContextProvider = ({
 
           setCurrentUser({ id, email, role })
         } catch (error) {
-          console.log(error)
+          if (error instanceof AxiosError) {
+            const message = error.response?.data.message
+
+            if (message === 'Authentication failed. Token expired') {
+              logoutUser()
+            }
+          }
         }
       }
 
