@@ -1,4 +1,5 @@
-import { sign, verify } from 'jsonwebtoken'
+import { TokenExpiredError, sign, verify } from 'jsonwebtoken'
+import { CustomApiError } from '../errors/CustomApiError'
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string
 
@@ -17,5 +18,13 @@ export const generateToken = (user: IEncodeToken) => {
 }
 
 export const verifyToken = (token: string) => {
-  return verify(token, JWT_SECRET_KEY)
+  try {
+    return verify(token, JWT_SECRET_KEY)
+  } catch (error) {
+    if (error instanceof TokenExpiredError) {
+      throw CustomApiError.unauthorizedError(
+        'Authentication failed. Token expired'
+      )
+    }
+  }
 }
