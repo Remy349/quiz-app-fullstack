@@ -2,20 +2,20 @@ import { Router } from 'express'
 import { UserController } from '../controller/UserController'
 import authJwt from '../../../../middleware/authJwt'
 
-const userRoute = Router()
+const userRouter = Router()
 
 const userController = new UserController()
 
-userRoute.get('/', userController.getAll.bind(userController))
+userRouter.get('/', userController.getAll.bind(userController))
 
-userRoute.get(
+userRouter.get(
   '/profile',
   authJwt,
   userController.getProfile.bind(userController)
 )
 
-userRoute.get('/:userId', userController.getById.bind(userController))
+userRouter.get('/:userId', userController.getById.bind(userController))
 
-userRoute.post('/', userController.create.bind(userController))
+userRouter.post('/', userController.create.bind(userController))
 
-export default userRoute
+export default userRouter
