@@ -20,3 +20,24 @@ model User {
 
   @@map("users")
 }
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  quizzes Quiz[]
+
+  @@map("categories")
+}
+
+model Quiz {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@map("quizzes")
+}
