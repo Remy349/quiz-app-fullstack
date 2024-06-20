@@ -22,3 +22,11 @@ export const SignUpFormSchema = z.object({
 })
 
 export type TSignUpFormSchema = z.infer<typeof SignUpFormSchema>
+
+// -----------------------------------------------------
+
+export const CreateCategoryFormSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+})
+
+export type TCreateCategoryFormSchema = z.infer<typeof CreateCategoryFormSchema>
