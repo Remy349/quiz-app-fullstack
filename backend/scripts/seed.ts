@@ -5,6 +5,14 @@ const prisma = new PrismaClient()
 
 async function main() {
   try {
+    const adminRegistered = await prisma.user.findFirst({
+      where: { email: 'superadminemail@gmail.com' }
+    })
+
+    if (adminRegistered) {
+      throw new Error('User admin already registered')
+    }
+
     const passwordHash = await hash('superadminpassword', 10)
 
     await prisma.user.create({
