@@ -13,7 +13,7 @@ export const generateToken = (user: IEncodeToken) => {
   return sign(
     { id: user.id, email: user.email, role: user.role },
     JWT_SECRET_KEY,
-    { expiresIn: '2h' }
+    { expiresIn: '4h' }
   )
 }
 
