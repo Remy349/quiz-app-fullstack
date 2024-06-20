@@ -39,7 +39,11 @@ export const SignInForm = () => {
       signInUser(token)
       setCurrentUserData({ id, email, role })
 
-      if (role === 'USER') navigate('/dashboard')
+      if (role === 'USER') {
+        navigate('/dashboard')
+      } else if (role === 'ADMIN') {
+        navigate('/dashboard/admin')
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message)
@@ -91,10 +95,11 @@ export const SignInForm = () => {
           type='submit'
           disabled={form.formState.isSubmitting}
         >
-          {form.formState.isSubmitting && (
-            <LoaderCircle className='w-5 h-5 mr-2 animate-spin' />
+          {form.formState.isSubmitting ? (
+            <LoaderCircle className='w-5 h-5 animate-spin' />
+          ) : (
+            <p>Sign In</p>
           )}
-          Sign In
         </Button>
         <Link className='text-center underline text-sm' to='/auth/signup'>
           Don't have an account yet? Create one
