@@ -8,6 +8,9 @@ import SignUpPage from './auth/signup/page'
 import DashboardRoot from './dashboard/root'
 import DashboardUserHomePage from './dashboard/user/page'
 
+import DashboardAdminHomePage from './dashboard/admin/page'
+import DashboardAdminCategoriesPage from './dashboard/admin/categories/page'
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -45,7 +48,11 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <h1>HOME ADMIN DASHBOARD</h1>,
+            element: <DashboardAdminHomePage />,
+          },
+          {
+            path: 'categories',
+            element: <DashboardAdminCategoriesPage />,
           },
         ],
       },
