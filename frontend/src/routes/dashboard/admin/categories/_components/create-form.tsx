@@ -16,19 +16,29 @@ import {
   TCreateCategoryFormSchema,
 } from '@/utils/formSchemas'
 import { Button } from '@/components/ui/button'
+import { useCreateCategoryMutation } from '@/services/mutations/categories'
+import { AxiosError } from 'axios'
 
 export const CreateForm = () => {
+  const { mutateAsync: createCategory } = useCreateCategoryMutation()
+
   const form = useForm<TCreateCategoryFormSchema>({
     resolver: zodResolver(CreateCategoryFormSchema),
     defaultValues: { name: '' },
   })
 
   const onSubmit = async (formData: TCreateCategoryFormSchema) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      await createCategory(formData)
 
-    console.log(formData)
+      toast.success('Category successfully created')
 
-    toast.success('Category successfully created')
+      form.reset()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message)
+      }
+    }
   }
 
   return (
