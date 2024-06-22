@@ -6,10 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Ellipsis, Pencil, Trash } from 'lucide-react'
+import { Ellipsis } from 'lucide-react'
+import { DeleteDialog } from './delete-dialog'
 
 type TColumnData = {
   id: string
@@ -41,23 +41,8 @@ export const columns: ColumnDef<TColumnData>[] = [
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className='md:cursor-pointer'
-              onClick={() => console.log(item.id)}
-            >
-              Edit
-              <DropdownMenuShortcut>
-                <Pencil className='w-4 h-4' />
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className='md:cursor-pointer'
-              onClick={() => console.log(item.id)}
-            >
-              Delete
-              <DropdownMenuShortcut>
-                <Trash className='w-4 h-4' />
-              </DropdownMenuShortcut>
+            <DropdownMenuItem asChild className='md:cursor-pointer'>
+              <DeleteDialog categoryId={item.id} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
