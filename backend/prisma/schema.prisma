@@ -32,9 +32,12 @@ model Category {
 }
 
 model Quiz {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  isPublished Boolean  @default(false)
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
