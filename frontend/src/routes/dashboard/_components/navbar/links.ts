@@ -20,5 +20,8 @@ export const navLinks: {
     { href: '/dashboard/admin', name: 'Dashboard' },
     { href: '/dashboard/admin/categories', name: 'Categories' },
   ],
-  USER: [{ href: '/dashboard', name: 'Dashboard' }],
+  USER: [
+    { href: '/dashboard', name: 'Dashboard' },
+    { href: '/dashboard/quizzes', name: 'Quizzes' },
+  ],
 }
