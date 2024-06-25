@@ -11,16 +11,38 @@ import {
 } from '@/components/ui/card'
 import { CreateDialog } from './_components/create-dialog'
 import { useCategoriesQuery } from '@/services/queries/categories'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+import { Link } from 'react-router-dom'
 
 export default function DashboardAdminCategoriesPage() {
   useSEO('Dashboard')
 
-  const { data: categories = [], isLoading } = useCategoriesQuery()
-
-  if (isLoading) return <p>Loading...</p>
+  const { data: categories = [] } = useCategoriesQuery()
 
   return (
     <div>
+      <div className='mb-4'>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to='/dashboard/admin'>Dashboard</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Categories</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
       {categories.length === 0 ? (
         <EmptyState />
       ) : (
