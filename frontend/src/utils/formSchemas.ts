@@ -30,3 +30,13 @@ export const CreateCategoryFormSchema = z.object({
 })
 
 export type TCreateCategoryFormSchema = z.infer<typeof CreateCategoryFormSchema>
+
+// -----------------------------------------------------
+
+export const CreateQuizFormSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  description: z.string().min(1, { message: 'Description is required' }),
+  categoryId: z.string().min(1, { message: 'Category is required' }),
+})
+
+export type TCreateQuizFormSchema = z.infer<typeof CreateQuizFormSchema>
