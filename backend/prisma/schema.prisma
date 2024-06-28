@@ -18,6 +18,8 @@ model User {
   role      String
   createdAt DateTime @default(now())
 
+  quizzes Quiz[]
+
   @@map("users")
 }
 
@@ -41,6 +43,9 @@ model Quiz {
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   @@map("quizzes")
 }
