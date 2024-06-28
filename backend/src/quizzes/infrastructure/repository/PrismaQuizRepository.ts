@@ -6,9 +6,17 @@ import { IQuizRepository } from '../../domain/QuizRepository'
 export class PrismaQuizRepository implements IQuizRepository {
   private prisma = PrismaSingleton.getInstance()
 
-  async create(quiz: QuizEntity): Promise<void> {
+  async create(quiz: QuizEntity): Promise<QuizEntity> {
     try {
-      const { name, description, categoryId } = quiz
+      const { name, description, categoryId, userId } = quiz
+
+      const userRegistered = await this.prisma.user.findFirst({
+        where: { id: userId }
+      })
+
+      if (!userRegistered) {
+        throw CustomApiError.notFoundError('User not found')
+      }
 
       const categoryRegistered = await this.prisma.category.findFirst({
         where: { id: categoryId }
@@ -18,9 +26,17 @@ export class PrismaQuizRepository implements IQuizRepository {
         throw CustomApiError.notFoundError('Category not found')
       }
 
-      const newQuiz = new QuizEntity(name, description, categoryId)
+      const quizRegistered = await this.prisma.quiz.findFirst({
+        where: { name, userId }
+      })
 
-      await this.prisma.quiz.create({
+      if (quizRegistered) {
+        throw CustomApiError.conflictError('Quiz already registered')
+      }
+
+      const newQuiz = new QuizEntity(name, description, categoryId, userId)
+
+      return await this.prisma.quiz.create({
         data: newQuiz
       })
     } catch (error) {

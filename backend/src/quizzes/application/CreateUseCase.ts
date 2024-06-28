@@ -5,6 +5,7 @@ interface ICreateData {
   name: string
   description: string
   categoryId: string
+  userId: string
 }
 
 export class CreateUseCase {
@@ -14,10 +15,10 @@ export class CreateUseCase {
     this.quizRepository = quizRepository
   }
 
-  async execute(data: ICreateData): Promise<void> {
-    const { name, description, categoryId } = data
+  async execute(data: ICreateData): Promise<QuizEntity> {
+    const { name, description, categoryId, userId } = data
 
-    const quiz = new QuizEntity(name, description, categoryId)
+    const quiz = new QuizEntity(name, description, categoryId, userId)
 
     return await this.quizRepository.create(quiz)
   }
