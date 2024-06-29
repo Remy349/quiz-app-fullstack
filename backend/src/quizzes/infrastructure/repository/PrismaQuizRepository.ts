@@ -6,6 +6,28 @@ import { IQuizRepository } from '../../domain/QuizRepository'
 export class PrismaQuizRepository implements IQuizRepository {
   private prisma = PrismaSingleton.getInstance()
 
+  async getAllByUserId(userId: string): Promise<QuizEntity[]> {
+    try {
+      const userRegistered = await this.prisma.user.findFirst({
+        where: { id: userId }
+      })
+
+      if (!userRegistered) {
+        throw CustomApiError.notFoundError('User not found')
+      }
+
+      return await this.prisma.quiz.findMany({
+        where: { userId }
+      })
+    } catch (error) {
+      if (error instanceof CustomApiError) {
+        throw error
+      }
+
+      throw CustomApiError.internalServerError()
+    }
+  }
+
   async create(quiz: QuizEntity): Promise<QuizEntity> {
     try {
       const { name, description, categoryId, userId } = quiz
