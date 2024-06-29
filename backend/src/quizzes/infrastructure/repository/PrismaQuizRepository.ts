@@ -69,4 +69,26 @@ export class PrismaQuizRepository implements IQuizRepository {
       throw CustomApiError.internalServerError()
     }
   }
+
+  async delete(quizId: string): Promise<void> {
+    try {
+      const quizRegistered = await this.prisma.quiz.findFirst({
+        where: { id: quizId }
+      })
+
+      if (!quizRegistered) {
+        throw CustomApiError.notFoundError('Quiz not found')
+      }
+
+      await this.prisma.quiz.delete({
+        where: { id: quizId }
+      })
+    } catch (error) {
+      if (error instanceof CustomApiError) {
+        throw error
+      }
+
+      throw CustomApiError.internalServerError()
+    }
+  }
 }
