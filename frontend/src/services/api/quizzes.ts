@@ -7,3 +7,7 @@ export const getQuizzesByUserId = async (userId: string) => {
 
   return res.data
 }
+
+export const deleteQuiz = async (quizId: string) => {
+  await axios.delete(`${API_URL}/quizzes/${quizId}`)
+}
