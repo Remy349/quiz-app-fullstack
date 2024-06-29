@@ -18,12 +18,12 @@ import { useSEO } from '@/hooks/useSEO'
 import { ChevronLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { CreateForm } from '../_components/create-form'
-import { useCategoriesQuery } from '@/services/queries/categories'
+import { useGetCategoriesQuery } from '@/services/queries/categories'
 
 export default function DashboardUserQuizzesNewPage() {
   useSEO('Dashboard')
 
-  const { data: categories = [] } = useCategoriesQuery()
+  const { data: categories = [] } = useGetCategoriesQuery()
 
   return (
     <div>

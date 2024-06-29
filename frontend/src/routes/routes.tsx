@@ -58,6 +58,14 @@ export const router = createBrowserRouter([
             path: 'new',
             element: <DashboardUserQuizzesNewPage />,
           },
+          {
+            path: ':quizId',
+            element: <h1>QUIZ HERE</h1>,
+          },
+          {
+            path: ':quizId/edit',
+            element: <h1>QUIZ EDIT</h1>,
+          },
         ],
       },
       {
