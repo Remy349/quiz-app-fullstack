@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { CreateDialog } from './_components/create-dialog'
-import { useCategoriesQuery } from '@/services/queries/categories'
+import { useGetCategoriesQuery } from '@/services/queries/categories'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom'
 export default function DashboardAdminCategoriesPage() {
   useSEO('Dashboard')
 
-  const { data: categories = [] } = useCategoriesQuery()
+  const { data: categories = [] } = useGetCategoriesQuery()
 
   return (
     <div>
