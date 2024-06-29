@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { TCategory } from '@/types/types'
+import { TCategory, TQuiz } from '@/types/types'
 import { LoaderCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import {
@@ -24,19 +24,44 @@ import {
   TCreateQuizFormSchema,
 } from '@/utils/formSchemas'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios, { AxiosError } from 'axios'
+import { toast } from 'sonner'
+import { API_URL } from '@/utils/consts'
+import { useAuthContext } from '@/hooks/useAuthContext'
+import { useNavigate } from 'react-router-dom'
 
 interface ICreateFormProps {
   categories: TCategory[]
 }
 
 export const CreateForm = ({ categories }: ICreateFormProps) => {
+  const { currentUser } = useAuthContext()
+  const navigate = useNavigate()
+
   const form = useForm<TCreateQuizFormSchema>({
     resolver: zodResolver(CreateQuizFormSchema),
     defaultValues: { name: '', description: '', categoryId: '' },
   })
 
   const onSubmit = async (formData: TCreateQuizFormSchema) => {
-    console.log(formData)
+    try {
+      const userId = currentUser?.id || ''
+
+      const res = await axios.post<TQuiz>(`${API_URL}/quizzes`, {
+        ...formData,
+        userId,
+      })
+
+      const quiz = res.data
+
+      navigate(`/dashboard/quizzes/${quiz.id}/edit`)
+
+      toast.success('Quiz successfully created')
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message)
+      }
+    }
   }
 
   return (
