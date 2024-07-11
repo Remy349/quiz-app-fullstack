@@ -10,7 +10,9 @@ import DashboardRoot from './dashboard/root'
 
 import DashboardUserHomePage from './dashboard/user/page'
 import DashboardUserQuizzesPage from './dashboard/user/quizzes/page'
-import DashboardUserQuizzesNewPage from './dashboard/user/quizzes/new/page'
+import DashboardUserNewQuizPage from './dashboard/user/quizzes/new/page'
+import DashboardUserQuizPage from './dashboard/user/quizzes/quiz/page'
+import DashboardUserEditQuizPage from './dashboard/user/quizzes/quiz/edit/page'
 
 import DashboardAdminHomePage from './dashboard/admin/page'
 import DashboardAdminCategoriesPage from './dashboard/admin/categories/page'
@@ -56,15 +58,15 @@ export const router = createBrowserRouter([
           },
           {
             path: 'new',
-            element: <DashboardUserQuizzesNewPage />,
+            element: <DashboardUserNewQuizPage />,
           },
           {
             path: ':quizId',
-            element: <h1>QUIZ HERE</h1>,
+            element: <DashboardUserQuizPage />,
           },
           {
             path: ':quizId/edit',
-            element: <h1>QUIZ EDIT</h1>,
+            element: <DashboardUserEditQuizPage />,
           },
         ],
       },

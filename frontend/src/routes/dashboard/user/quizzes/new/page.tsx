@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom'
 import { CreateForm } from '../_components/create-form'
 import { useGetCategoriesQuery } from '@/services/queries/categories'
 
-export default function DashboardUserQuizzesNewPage() {
+export default function DashboardUserNewQuizPage() {
   useSEO('Dashboard')
 
   const { data: categories = [] } = useGetCategoriesQuery()
