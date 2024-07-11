@@ -4,11 +4,13 @@ import { PrismaQuizRepository } from '../../repository/PrismaQuizRepository'
 import { CreateUseCase } from '../../../application/CreateUseCase'
 import { GetAllByUserIdUseCase } from '../../../application/GetAllByUserIdUseCase'
 import { DeleteUseCase } from '../../../application/DeleteUseCase'
+import { GetByIdUseCase } from '../../../application/GetByIdUseCase'
 
 export class QuizController {
   private quizRepository: PrismaQuizRepository
 
   private getAllByUserIdUseCase: GetAllByUserIdUseCase
+  private getByIdUseCase: GetByIdUseCase
   private createUseCase: CreateUseCase
   private deleteUseCase: DeleteUseCase
 
@@ -16,6 +18,7 @@ export class QuizController {
     this.quizRepository = new PrismaQuizRepository()
 
     this.getAllByUserIdUseCase = new GetAllByUserIdUseCase(this.quizRepository)
+    this.getByIdUseCase = new GetByIdUseCase(this.quizRepository)
     this.createUseCase = new CreateUseCase(this.quizRepository)
     this.deleteUseCase = new DeleteUseCase(this.quizRepository)
   }
@@ -27,6 +30,20 @@ export class QuizController {
       const quizzes = await this.getAllByUserIdUseCase.execute(userId)
 
       res.status(200).json(quizzes)
+    } catch (error) {
+      if (error instanceof CustomApiError) {
+        res.status(error.statusCode).json({ message: error.message })
+      }
+    }
+  }
+
+  async getById(req: ExRequest, res: ExResponse) {
+    try {
+      const { quizId } = req.params
+
+      const quiz = await this.getByIdUseCase.execute(quizId)
+
+      res.status(200).json(quiz)
     } catch (error) {
       if (error instanceof CustomApiError) {
         res.status(error.statusCode).json({ message: error.message })

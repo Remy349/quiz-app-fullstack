@@ -5,6 +5,8 @@ const quizRouter = Router()
 
 const quizController = new QuizController()
 
+quizRouter.get('/:quizId', quizController.getById.bind(quizController))
+
 quizRouter.post('/', quizController.create.bind(quizController))
 
 quizRouter.delete('/:quizId', quizController.delete.bind(quizController))
