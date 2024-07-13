@@ -1,21 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
-
 import LandingRoot from './landing/root'
-
 import HomePage from './landing/home/page'
-import SignInPage from './auth/signin/page'
-import SignUpPage from './auth/signup/page'
-
-import DashboardRoot from './dashboard/root'
-
-import DashboardUserHomePage from './dashboard/user/page'
-import DashboardUserQuizzesPage from './dashboard/user/quizzes/page'
-import DashboardUserNewQuizPage from './dashboard/user/quizzes/new/page'
-import DashboardUserQuizPage from './dashboard/user/quizzes/quiz/page'
-import DashboardUserEditQuizPage from './dashboard/user/quizzes/quiz/edit/page'
-
-import DashboardAdminHomePage from './dashboard/admin/page'
-import DashboardAdminCategoriesPage from './dashboard/admin/categories/page'
 
 export const router = createBrowserRouter([
   {
@@ -25,63 +10,6 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-      },
-      {
-        path: 'auth',
-        children: [
-          {
-            path: 'signin',
-            element: <SignInPage />,
-          },
-          {
-            path: 'signup',
-            element: <SignUpPage />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: '/dashboard',
-    element: <DashboardRoot />,
-    children: [
-      {
-        index: true,
-        element: <DashboardUserHomePage />,
-      },
-      {
-        path: 'quizzes',
-        children: [
-          {
-            index: true,
-            element: <DashboardUserQuizzesPage />,
-          },
-          {
-            path: 'new',
-            element: <DashboardUserNewQuizPage />,
-          },
-          {
-            path: ':quizId',
-            element: <DashboardUserQuizPage />,
-          },
-          {
-            path: ':quizId/edit',
-            element: <DashboardUserEditQuizPage />,
-          },
-        ],
-      },
-      {
-        path: 'admin',
-        children: [
-          {
-            index: true,
-            element: <DashboardAdminHomePage />,
-          },
-          {
-            path: 'categories',
-            element: <DashboardAdminCategoriesPage />,
-          },
-        ],
       },
     ],
   },
