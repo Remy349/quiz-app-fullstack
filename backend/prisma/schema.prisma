@@ -10,42 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  username  String
-  email     String
-  password  String
-  role      String
-  createdAt DateTime @default(now())
-
-  quizzes Quiz[]
-
-  @@map("users")
-}
-
-model Category {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-
-  quizzes Quiz[]
-
-  @@map("categories")
-}
-
 model Quiz {
   id          String   @id @default(uuid())
   name        String
   description String
-  isPublished Boolean  @default(false)
   isCompleted Boolean  @default(false)
   createdAt   DateTime @default(now())
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
 
   @@map("quizzes")
 }
