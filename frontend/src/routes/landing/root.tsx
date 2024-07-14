@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { Navbar } from './_components/navbar/navbar'
-import { Toaster } from 'sonner'
+import { Navbar } from './_components/navbar'
 
 export default function LandingRoot() {
   return (
@@ -9,7 +8,6 @@ export default function LandingRoot() {
       <main className='mt-16'>
         <Outlet />
       </main>
-      <Toaster position='top-right' closeButton richColors />
     </>
   )
 }

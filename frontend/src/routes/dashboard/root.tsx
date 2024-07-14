@@ -1,6 +1,6 @@
-import { Outlet } from 'react-router-dom'
-import { Navbar } from './_components/navbar/navbar'
 import { Toaster } from 'sonner'
+import { Navbar } from './_components/navbar'
+import { Outlet } from 'react-router-dom'
 
 export default function DashboardRoot() {
   return (

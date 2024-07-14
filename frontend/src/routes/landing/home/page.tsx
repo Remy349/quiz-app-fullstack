@@ -17,7 +17,7 @@ export default function HomePage() {
           </p>
           <div className='flex justify-center'>
             <Button className='font-medium' asChild>
-              <Link to='/auth/signup'>Get started for free</Link>
+              <Link to='/dashboard'>Get started for free</Link>
             </Button>
           </div>
         </div>

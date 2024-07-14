@@ -5,7 +5,7 @@ export const useSEO = (title: string) => {
     const prevTitle = document.title
 
     if (title) {
-      document.title = `${title} | Quiz App`
+      document.title = `${title} | QuizApp`
     }
 
     return () => {
