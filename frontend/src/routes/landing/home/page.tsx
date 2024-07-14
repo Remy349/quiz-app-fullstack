@@ -16,7 +16,7 @@ export default function HomePage() {
             assessment and ensure effective learning.
           </p>
           <div className='flex justify-center'>
-            <Button className='font-medium h-12' asChild>
+            <Button className='font-medium' asChild>
               <Link to='/dashboard'>Get started for free</Link>
             </Button>
           </div>
