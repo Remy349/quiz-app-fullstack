@@ -41,11 +41,11 @@ export const CreateForm = () => {
 
   const onSubmit = async (formData: TCreateFormSchema) => {
     try {
-      const response = await axios.post(`${API_URL}/quizzes`, formData)
+      const res = await axios.post(`${API_URL}/quizzes`, formData)
 
-      const quiz: TQuiz = response.data
+      const quiz: TQuiz = res.data
 
-      navigate(`/dashboard/quizzes/${quiz.id}`)
+      navigate(`/dashboard/quizzes/${quiz.id}/edit`)
 
       toast.success('Quiz successfully created')
     } catch (error) {
