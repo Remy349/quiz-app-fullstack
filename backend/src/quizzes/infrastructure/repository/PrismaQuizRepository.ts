@@ -14,6 +14,26 @@ export class PrismaQuizRepository implements IQuizRepository {
     }
   }
 
+  async getById(quizId: string): Promise<QuizEntity | null> {
+    try {
+      const quiz = await this.prisma.quiz.findFirst({
+        where: { id: quizId }
+      })
+
+      if (!quiz) {
+        throw CustomApiError.notFoundError('Quiz not found')
+      }
+
+      return quiz
+    } catch (error) {
+      if (error instanceof CustomApiError) {
+        throw error
+      }
+
+      throw CustomApiError.internalServerError()
+    }
+  }
+
   async create(quiz: QuizEntity): Promise<QuizEntity> {
     try {
       const { name, description } = quiz
