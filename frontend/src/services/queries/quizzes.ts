@@ -1,9 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
-import { getQuizzes } from '../api/quizzes'
+import { getQuizById, getQuizzes } from '../api/quizzes'
 
 export const useGetQuizzesQuery = () => {
   return useQuery({
     queryKey: ['quizzes'],
     queryFn: getQuizzes,
+  })
+}
+
+export const useGetQuizByIdQuery = (quizId: string) => {
+  return useQuery({
+    queryKey: ['quizzes', quizId],
+    queryFn: () => getQuizById(quizId),
   })
 }

@@ -10,6 +10,10 @@ export const getQuizzes = async () => {
   return quizzes
 }
 
-export const deleteQuiz = async (quizId: string) => {
-  await axios.delete(`${API_URL}/quizzes/${quizId}`)
+export const getQuizById = async (quizId: string) => {
+  const res = await axios.get(`${API_URL}/quizzes/${quizId}`)
+
+  const quiz: TQuiz = res.data
+
+  return quiz
 }
