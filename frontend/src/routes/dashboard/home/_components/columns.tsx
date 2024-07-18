@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { Pencil, Play } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { DeleteDialog } from './delete-dialog'
 
 type TColumnData = {
   id: string
@@ -37,7 +36,6 @@ export const columns: ColumnDef<TColumnData>[] = [
               <Pencil className='w-4 h-4' />
             </Link>
           </Button>
-          <DeleteDialog quizId={item.id} />
         </div>
       )
     },
