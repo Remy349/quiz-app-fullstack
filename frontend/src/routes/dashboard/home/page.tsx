@@ -13,9 +13,11 @@ import { DataTable } from './_components/data-table'
 import { columns } from './_components/columns'
 
 export default function DashboardHomePage() {
-  const { data: quizzes = [] } = useGetQuizzesQuery()
+  const { data: quizzes = [], isLoading } = useGetQuizzesQuery()
 
   useSEO('Dashboard')
+
+  if (isLoading) return <p>Loading...</p>
 
   return (
     <div>

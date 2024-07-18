@@ -3,6 +3,8 @@ import LandingRoot from './landing/root'
 import HomePage from './landing/home/page'
 import DashboardRoot from './dashboard/root'
 import DashboardHomePage from './dashboard/home/page'
+import DashboardQuizPage from './dashboard/quizzes/quiz/page'
+import DashboardQuizEditPage from './dashboard/quizzes/quiz/edit/page'
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +24,19 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <DashboardHomePage />,
+      },
+      {
+        path: 'quizzes',
+        children: [
+          {
+            path: ':quizId',
+            element: <DashboardQuizPage />,
+          },
+          {
+            path: ':quizId/edit',
+            element: <DashboardQuizEditPage />,
+          },
+        ],
       },
     ],
   },
