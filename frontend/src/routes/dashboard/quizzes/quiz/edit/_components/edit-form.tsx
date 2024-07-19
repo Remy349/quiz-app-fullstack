@@ -15,6 +15,8 @@ import { LoaderCircle, PlusCircle, X } from 'lucide-react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
+import { RichTextEditor } from './richtext-editor'
 
 interface IEditFormProps {
   quiz?: TQuiz
@@ -112,14 +114,13 @@ export const EditForm = ({ quiz }: IEditFormProps) => {
         {fields.map((field, index) => (
           <Card key={field.id}>
             <CardHeader className='flex-row items-center space-y-0 justify-between'>
-              <CardTitle>Question {index + 1}</CardTitle>
+              <CardTitle>Question #{index + 1}</CardTitle>
               <Button
                 type='button'
                 variant='ghost'
                 onClick={() => handleRemoveQuestion(index)}
                 size='icon'
-                className='w-8 h-8'
-                disabled={index === 0}
+                className={cn('w-8 h-8', index === 0 && 'hidden')}
               >
                 <X className='w-4 h-4' />
               </Button>
@@ -130,13 +131,11 @@ export const EditForm = ({ quiz }: IEditFormProps) => {
                 name={`questions.${index}.name`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Question</FormLabel>
                     <FormControl>
-                      <Textarea
-                        {...field}
-                        className='resize-none'
-                        rows={4}
-                        disabled={isSubmitting}
+                      <RichTextEditor
+                        content={field.value}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
